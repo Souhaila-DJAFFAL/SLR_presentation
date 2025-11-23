@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive SLR Analysis: Brain & Body Growth Studies</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f9fafb;
+            padding: 24px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2563eb 0%, #10b981 100%);
+            color: white;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .header .subtitle {
+            font-size: 1.25rem;
+        }
+
+        .header .meta {
+            font-size: 0.875rem;
+            margin-top: 8px;
+            opacity: 0.95;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            white-space: nowrap;
+            background: white;
+            color: #374151;
+        }
+
+        .tab:hover {
+            background: #f3f4f6;
+        }
+
+        .tab.active {
+            background: #2563eb;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 24px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            padding: 24px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card.blue { background: #dbeafe; }
+        .stat-card.green { background: #d1fae5; }
+        .stat-card.purple { background: #e9d5ff; }
+        .stat-card.orange { background: #fed7aa; }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .stat-number.blue { color: #2563eb; }
+        .stat-number.green { color: #059669; }
+        .stat-number.purple { color: #7c3aed; }
+        .stat-number.orange { color: #ea580c; }
+
+        .stat-label {
+            color: #374151;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .chart-container {
+            margin: 32px 0;
+            position: relative;
+            height: 400px;
+        }
+
+        .info-box {
+            padding: 24px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+
+        .info-box.yellow { background: #fef3c7; }
+        .info-box.blue { background: #dbeafe; }
+        .info-box.green { background: #d1fae5; }
+        .info-box.purple { background: #e9d5ff; }
+        .info-box.red { background: #fee2e2; }
+        .info-box.orange { background: #fed7aa; }
+        .info-box.indigo { background: #e0e7ff; }
+
+        .info-box h3 {
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-box li {
+            color: #374151;
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .info-box li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .two-col-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 24px 0;
+        }
+
+        .paper-card {
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 4px solid;
+            margin-bottom: 16px;
+        }
+
+        .paper-card.orange {
+            background: #fff7ed;
+            border-color: #ea580c;
+        }
+
+        .paper-card.green {
+            background: #f0fdf4;
+            border-color: #059669;
+        }
+
+        .paper-title {
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .paper-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .paper-meta span {
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .country-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .country-badge {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #a78bfa;
+            font-weight: 600;
+        }
+
+        .venn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 32px;
+            background: linear-gradient(135deg, #dbeafe 0%, #d1fae5 100%);
+            border-radius: 12px;
+        }
+
+        ol {
+            padding-left: 20px;
+        }
+
+        ol li {
+            margin-bottom: 12px;
+        }
+
+        strong {
+            color: #1f2937;
+        }
+
+        .gap-card {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .gap-card h4 {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .gap-card h4.red { color: #dc2626; }
+
+        .gap-card p {
+            color: #374151;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Comprehensive SLR Analysis</h1>
+            <div class="subtitle">Children's Dietary Requirements: Brain & Body Growth Studies</div>
+            <div class="meta">Age Range: Children Under 5 Years | Focus: Malnutrition Impact</div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">Overview</button>
+            <button class="tab" onclick="showTab('venn')">Venn</button>
+            <button class="tab" onclick="showTab('geography')">Geography</button>
+            <button class="tab" onclick="showTab('mena')">MENA</button>
+            <button class="tab" onclick="showTab('nutrients')">Nutrients</button>
+            <button class="tab" onclick="showTab('patterns')">Patterns</button>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <h2>Study Overview</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <div class="stat-number blue">474</div>
+                        <div class="stat-label">Body Growth Studies</div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-number green">159</div>
+                        <div class="stat-label">Brain Growth Studies</div>
+                    </div>
+                    <div class="stat-card purple">
+                        <div class="stat-number purple">~20</div>
+                        <div class="stat-label">Overlapping Themes</div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-number orange">~633</div>
+                        <div class="stat-label">Total Unique Studies</div>
+                    </div>
+                </div>
+
+                <h3>Study Types Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="studyTypesChart"></canvas>
+                </div>
+                
+                <div style="background: #f3f4f6; padding: 16px; border-radius: 8px; margin: 16px 0; font-size: 0.875rem; color: #374151;">
+                    <strong>Note:</strong> While body growth has more RCTs in absolute numbers (104 vs 36), brain growth studies have a slightly higher <em>proportion</em> of RCTs: 22.6% (36/159) compared to 21.9% (104/474) for body growth studies.
+                </div>
+
+                <div class="info-box yellow">
+                    <h3>Key Findings</h3>
+                    <ul>
+                        <li>Body growth studies are 3.0x more numerous than brain growth studies (474 vs 159)</li>
+                        <li>Most body growth studies are observational (47.9%, or 227 studies)</li>
+                        <li>Brain growth has slightly higher proportion of RCTs (22.6% vs 21.9%), though body growth has more RCTs in absolute numbers (104 vs 36)</li>
+                        <li>Sub-Saharan Africa dominates body growth research (East Africa: 30.8%)</li>
+                        <li>High-income countries lead brain/neurodevelopment research (73.6% are Global/Other)</li>
+                        <li>Ethiopia is the most studied country with 83 body growth studies (17.5%)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Venn Tab -->
+            <div id="venn" class="tab-content">
+                <h2>Literature Overlap Analysis</h2>
+                
+                <div class="venn-container">
+                    <svg width="600" height="400" viewBox="0 0 600 400">
+                        <!-- Body Growth Circle -->
+                        <circle cx="220" cy="200" r="140" fill="#0088FE" opacity="0.5" stroke="#0088FE" stroke-width="3"/>
+                        
+                        <!-- Brain Growth Circle -->
+                        <circle cx="380" cy="200" r="140" fill="#00C49F" opacity="0.5" stroke="#00C49F" stroke-width="3"/>
+                        
+                        <!-- Labels -->
+                        <text x="150" y="200" font-size="20" font-weight="bold" fill="#005A9C">Body Growth</text>
+                        <text x="165" y="225" font-size="32" font-weight="bold" fill="#005A9C">474</text>
+                        
+                        <text x="430" y="200" font-size="20" font-weight="bold" fill="#008A6E">Brain Growth</text>
+                        <text x="455" y="225" font-size="32" font-weight="bold" fill="#008A6E">159</text>
+                        
+                        <!-- Overlap -->
+                        <text x="285" y="200" font-size="18" font-weight="bold" fill="#004080">Overlap</text>
+                        <text x="295" y="225" font-size="28" font-weight="bold" fill="#004080">~20</text>
+                        
+                        <!-- Title -->
+                        <text x="300" y="40" font-size="24" font-weight="bold" fill="#333" text-anchor="middle">
+                            Literature Distribution
+                        </text>
+                        
+                        <!-- Note -->
+                        <text x="300" y="370" font-size="14" fill="#666" text-anchor="middle">
+                            Total Unique Studies: ~633 | Common themes: nutrition, growth, neurodevelopment
+                        </text>
+                    </svg>
+                </div>
+
+                <div class="two-col-grid">
+                    <div class="info-box blue">
+                        <h3>Body Growth Exclusive (454 studies)</h3>
+                        <ul>
+                            <li>Anthropometric measurements (stunting, wasting, underweight)</li>
+                            <li>Dietary diversity and feeding practices</li>
+                            <li>Malnutrition prevalence and determinants</li>
+                            <li>Community-based interventions</li>
+                            <li>Ready-to-use therapeutic foods (RUTF/RUSF)</li>
+                            <li>Complementary feeding practices</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box green">
+                        <h3>Brain Growth Exclusive (139 studies)</h3>
+                        <ul>
+                            <li>Brain imaging (MRI, fMRI, EEG)</li>
+                            <li>Cognitive function assessments</li>
+                            <li>Neurodevelopmental outcomes</li>
+                            <li>DHA/Omega-3 supplementation</li>
+                            <li>Psychomotor development</li>
+                            <li>Executive function and attention</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box purple">
+                    <h3>Overlapping Themes (~20 studies)</h3>
+                    <ul>
+                        <li>Iron deficiency and cognitive development</li>
+                        <li>Vitamin B12 and neurodevelopment with growth outcomes</li>
+                        <li>Zinc supplementation effects on both growth and cognition</li>
+                        <li>Malnutrition impact on brain development and physical growth</li>
+                        <li>Complementary feeding and developmental milestones</li>
+                        <li>Multiple micronutrient interventions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Geography Tab -->
+            <div id="geography" class="tab-content">
+                <h2>Geographic Distribution</h2>
+                
+                <div class="two-col-grid">
+                    <div>
+                        <h3>Body Growth Studies by Region</h3>
+                        <div class="chart-container">
+                            <canvas id="bodyGeoChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3>Brain Growth Studies by Region</h3>
+                        <div class="chart-container">
+                            <canvas id="brainGeoChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Top 15 Countries - Body Growth Studies</h3>
+                <div class="chart-container">
+                    <canvas id="topCountriesChart"></canvas>
+                </div>
+
+                <div class="info-box blue">
+                    <h3>Geographic Insights</h3>
+                    <ul>
+                        <li><strong>Ethiopia</strong> leads with 83 body growth studies (17.5%)</li>
+                        <li>East Africa accounts for 30.8% of body growth research</li>
+                        <li>Brain growth research is concentrated in high-income countries (73.6%)</li>
+                        <li>MENA region is understudied: 3.0% (body) and 1.3% (brain)</li>
+                        <li>Sub-Saharan Africa has 8.8% of brain growth studies despite high malnutrition burden</li>
+                        <li>West Africa contributes 8.2% of body growth studies</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- MENA Tab -->
+            <div id="mena" class="tab-content">
+                <h2>MENA Region Analysis</h2>
+                
+                <div class="info-box orange" style="background: linear-gradient(135deg, #fed7aa 0%, #fecaca 100%);">
+                    <h3 style="font-size: 1.75rem;">MENA Region Overview</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card" style="background: white;">
+                            <div class="stat-number orange">14</div>
+                            <div class="stat-label">Body Growth Papers</div>
+                        </div>
+                        <div class="stat-card" style="background: white;">
+                            <div class="stat-number" style="color: #dc2626;">2</div>
+                            <div class="stat-label">Brain Growth Papers</div>
+                        </div>
+                        <div class="stat-card" style="background: white;">
+                            <div class="stat-number purple">3.0%</div>
+                            <div class="stat-label">Of Total Body Studies</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Body Growth Studies in MENA Region</h3>
+                <div id="menaBodyPapers">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+
+                <h3 style="margin-top: 32px;">Brain Growth Studies in MENA Region</h3>
+                <div id="menaBrainPapers">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+
+                <div class="info-box red" style="margin-top: 32px;">
+                    <h3>MENA Region Gaps & Opportunities</h3>
+                    <ul style="font-size: 1rem;">
+                        <li><strong>⚠️ Severe Research Gap:</strong> MENA represents only 3.0% of body growth and 1.3% of brain growth studies despite significant malnutrition challenges</li>
+                        <li><strong>🔍 Conflict-Affected Focus:</strong> Several studies focus on Yemen and refugee populations (Syria, Palestine), highlighting the impact of conflict on child nutrition</li>
+                        <li><strong>💡 Limited Brain Research:</strong> Only 2 brain development studies specific to MENA region, indicating major research opportunity</li>
+                        <li><strong>✓ Emerging Interests:</strong> Recent studies (2023-2024) show growing attention to MENA nutrition issues, particularly in Gulf states (UAE, Qatar)</li>
+                    </ul>
+                </div>
+
+                <div class="info-box purple">
+                    <h3>Countries Represented in MENA Studies</h3>
+                    <div class="country-grid">
+                        <div class="country-badge">Egypt</div>
+                        <div class="country-badge">Tunisia</div>
+                        <div class="country-badge">Morocco</div>
+                        <div class="country-badge">Yemen</div>
+                        <div class="country-badge">Jordan</div>
+                        <div class="country-badge">Lebanon</div>
+                        <div class="country-badge">Syria</div>
+                        <div class="country-badge">Qatar</div>
+                        <div class="country-badge">Algeria</div>
+                        <div class="country-badge">Sudan</div>
+                        <div class="country-badge">Mali</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nutrients Tab -->
+            <div id="nutrients" class="tab-content">
+                <h2>Nutrients & Interventions Analysis</h2>
+                
+                <h3>Nutrient Focus by Study Type</h3>
+                <div class="chart-container">
+                    <canvas id="nutrientsChart"></canvas>
+                </div>
+
+                <div class="two-col-grid">
+                    <div class="info-box blue">
+                        <h3>Body Growth Priorities</h3>
+                        <ol>
+                            <li><strong>Protein (33 studies):</strong> Ready-to-use foods, milk-based supplements</li>
+                            <li><strong>Iron (19 studies):</strong> Anemia prevention and growth</li>
+                            <li><strong>Vitamin D (11 studies):</strong> Bone health and growth</li>
+                            <li><strong>Zinc (11 studies):</strong> Growth and immune function</li>
+                            <li><strong>Omega-3/DHA (7 studies):</strong> Overall development</li>
+                        </ol>
+                    </div>
+
+                    <div class="info-box green">
+                        <h3>Brain Growth Priorities</h3>
+                        <ol>
+                            <li><strong>Omega-3/DHA (41 studies):</strong> Dominant focus on brain development</li>
+                            <li><strong>Iron (37 studies):</strong> Cognitive development and attention</li>
+                            <li><strong>Protein (31 studies):</strong> Brain growth in premature infants</li>
+                            <li><strong>Vitamin B12 (11 studies):</strong> Neurodevelopment focus</li>
+                            <li><strong>Folate (10 studies):</strong> Neural development</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="info-box yellow">
+                    <h3>Key Nutrient Insights</h3>
+                    <div style="color: #374151;">
+                        <p style="margin-bottom: 16px;"><strong>Omega-3/DHA:</strong> Heavily emphasized in brain studies (25.8% of brain research) vs limited in body growth studies (1.5%). Critical for neurodevelopment but less studied for physical growth.</p>
+                        
+                        <p style="margin-bottom: 16px;"><strong>Vitamin B12:</strong> More important for brain studies (11 studies) compared to body growth (3 studies). Important for both physical growth and cognitive development.</p>
+                        
+                        <p style="margin-bottom: 16px;"><strong>Iron:</strong> Well-studied in both domains (19 body, 37 brain). Recognized for dual impact on growth and cognitive function.</p>
+                        
+                        <p style="margin-bottom: 16px;"><strong>Protein:</strong> Critical for both body (33 studies) and brain growth (31 studies), showing balanced importance.</p>
+                        
+                        <p><strong>Iodine:</strong> Understudied in both areas (0 body, 4 brain) despite critical role in neurodevelopment.</p>
+                    </div>
+                </div>
+
+                <div class="info-box purple">
+                    <h3>Intervention Types</h3>
+                    <div class="two-col-grid">
+                        <div>
+                            <h4 style="margin-bottom: 12px;">Body Growth Interventions:</h4>
+                            <ul style="font-size: 0.875rem;">
+                                <li>Ready-to-use therapeutic food (RUTF)</li>
+                                <li>Ready-to-use supplementary food (RUSF)</li>
+                                <li>Lipid-based nutrient supplements (LNS)</li>
+                                <li>Micronutrient powders (MNPs)</li>
+                                <li>Fortified foods (rice, flour, oil)</li>
+                                <li>Animal source foods (eggs, dairy, fish)</li>
+                                <li>Complementary food supplements</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="margin-bottom: 12px;">Brain Growth Interventions:</h4>
+                            <ul style="font-size: 0.875rem;">
+                                <li>DHA/EPA supplementation</li>
+                                <li>Infant formula fortification</li>
+                                <li>Milk fat globule membrane (MFGM)</li>
+                                <li>Iron supplementation</li>
+                                <li>B-vitamin complexes</li>
+                                <li>Choline supplementation</li>
+                                <li>Multi-micronutrient supplements</li>
+                                <li>Breastfeeding promotion</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patterns Tab -->
+            <div id="patterns" class="tab-content">
+                <h2>Key Patterns & Trends</h2>
+                
+                <h3>Age Group Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="ageGroupsChart"></canvas>
+                </div>
+
+                <div class="two-col-grid">
+                    <div class="info-box blue">
+                        <h3>Temporal Trends</h3>
+                        <ul style="font-size: 0.875rem;">
+                            <li><strong>2015-2017:</strong> Foundation period with systematic reviews and protocols</li>
+                            <li><strong>2018-2020:</strong> Peak of RCTs and intervention studies</li>
+                            <li><strong>2021-2022:</strong> COVID-19 impact, more observational studies</li>
+                            <li><strong>2023-2024:</strong> Focus on MENA region, conflict zones, and long-term outcomes</li>
+                            <li><strong>2025:</strong> Emerging trend - Integration of brain and body growth outcomes</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box green">
+                        <h3>Methodological Patterns</h3>
+                        <ul style="font-size: 0.875rem;">
+                            <li><strong>Body Growth:</strong> Large DHS-based observational studies dominant (47.9%, 227 studies)</li>
+                            <li><strong>Brain Growth:</strong> Higher proportion of RCTs (22.6%, 36 studies) though smaller in absolute numbers</li>
+                            <li><strong>Follow-up periods:</strong> Brain studies have longer follow-up (5+ years)</li>
+                            <li><strong>Sample sizes:</strong> Body studies larger (1000+), brain studies smaller (50-200)</li>
+                            <li><strong>Trend:</strong> Increasing use of MRI/fMRI in brain studies</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box orange">
+                    <h3>Critical Research Gaps</h3>
+                    <div>
+                        <div class="gap-card">
+                            <h4 class="red">1. Geographic Imbalance</h4>
+                            <p>MENA region severely understudied (14 body, 2 brain studies) despite high malnutrition burden and conflict-related food insecurity</p>
+                        </div>
+                        <div class="gap-card">
+                            <h4 class="red">2. Brain-Body Integration</h4>
+                            <p>Limited studies examining both brain and body outcomes simultaneously (~20 studies only)</p>
+                        </div>
+                        <div class="gap-card">
+                            <h4 class="red">3. Long-term Follow-up</h4>
+                            <p>Most body growth studies are observational; need more longitudinal RCTs tracking into school age</p>
+                        </div>
+                        <div class="gap-card">
+                            <h4 class="red">4. Specific Nutrients</h4>
+                            <p>Iodine, choline, and specific fatty acids understudied relative to their importance</p>
+                        </div>
+                        <div class="gap-card">
+                            <h4 class="red">5. Conflict Settings</h4>
+                            <p>Limited research in conflict-affected areas despite Yemen, Syria, Palestine challenges</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box purple">
+                    <h3>Emerging Themes (2023-2025)</h3>
+                    <ul>
+                        <li><strong>Gut microbiome:</strong> Linking nutrition, microbiota, and neurodevelopment</li>
+                        <li><strong>Epigenetics:</strong> How early nutrition affects gene expression and development</li>
+                        <li><strong>Systems approaches:</strong> Complex interactions between food systems, nutrition, and development</li>
+                        <li><strong>Climate & nutrition:</strong> Impact of climate change on food security and child nutrition</li>
+                        <li><strong>Digital health:</strong> Using technology for nutrition monitoring and intervention</li>
+                        <li><strong>Integrated interventions:</strong> Combining nutrition with psychosocial stimulation</li>
+                    </ul>
+                </div>
+
+                <div class="info-box indigo">
+                    <h3>Recommendations for Future Research</h3>
+                    <div class="two-col-grid">
+                        <div>
+                            <h4 style="color: #4338ca; margin-bottom: 12px;">Immediate Priorities:</h4>
+                            <ol style="font-size: 0.875rem;">
+                                <li>Expand MENA region research</li>
+                                <li>Integrate brain-body outcomes in single studies</li>
+                                <li>Focus on conflict-affected populations</li>
+                                <li>Long-term follow-up studies (5-10 years)</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h4 style="color: #4338ca; margin-bottom: 12px;">Methodological Needs:</h4>
+                            <ol style="font-size: 0.875rem;">
+                                <li>More RCTs in LMIC settings</li>
+                                <li>Standardized outcome measures</li>
+                                <li>Cost-effectiveness analyses</li>
+                                <li>Implementation science studies</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching function
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // MENA Papers Data
+        const menaBodyPapers = [
+            { title: "Rates and risk factors for relapse among children recovered from severe acute malnutrition in Mali", country: "Mali", year: 2025 },
+            { title: "Trends in the Prevalence and Factors Associated with Undernutrition in Tunisian Children Aged 0–23 Months", country: "Tunisia", year: 2024 },
+            { title: "Civil Conflict, Cash Transfers, and Child Nutrition in Yemen", country: "Yemen", year: 2024 },
+            { title: "Complementary Feeding Practices and Weaning Practices in Morocco: A Systematic Review", country: "Morocco", year: 2024 },
+            { title: "Evaluation of micronutrient and nutritional status among preschool children in Jordan", country: "Jordan", year: 2024 },
+            { title: "School children growth monitoring program in the state of Qatar", country: "Qatar", year: 2023 },
+            { title: "Prevalence of Malnutrition among Syrian Refugee Children from Lebanon", country: "Lebanon/Syria", year: 2023 },
+            { title: "Prevalence and determinants of wasting among under-5 Egyptian children", country: "Egypt", year: 2023 },
+            { title: "The prevalence and associated factors of undernutrition among under-five children in South Sudan", country: "South Sudan", year: 2021 },
+            { title: "Prevalence and factors associated with stunting among school children in Egypt", country: "Egypt", year: 2020 },
+            { title: "Combined Protocol for Acute Malnutrition Study in rural South Sudan and urban Kenya", country: "South Sudan", year: 2018 },
+            { title: "ComPAS Trial combined treatment model for acute malnutrition: economic evaluation", country: "South Sudan", year: 2018 },
+            { title: "Infant feeding practices in the Saharawi refugee camps Algeria", country: "Algeria", year: 2017 },
+            { title: "Correlates of child undernutrition in Yemen", country: "Yemen", year: 2017 }
+        ];
+
+        const menaBrainPapers = [
+            { title: "Fortified Iodine Milk Improves Iodine Status and Cognitive Abilities in Moroccan Schoolchildren", country: "Morocco", year: 2016 },
+            { title: "What Is the Evidence for Dietary-Induced DHA Deficiency in Human Brains?", country: "Various", year: 2022 }
+        ];
+
+        // Populate MENA papers
+        const bodyPapersDiv = document.getElementById('menaBodyPapers');
+        menaBodyPapers.forEach(paper => {
+            const paperCard = document.createElement('div');
+            paperCard.className = 'paper-card orange';
+            paperCard.innerHTML = `
+                <div class="paper-title">${paper.title}</div>
+                <div class="paper-meta">
+                    <span style="background: #fed7aa;">📍 ${paper.country}</span>
+                    <span style="background: #bfdbfe;">📅 ${paper.year}</span>
+                </div>
+            `;
+            bodyPapersDiv.appendChild(paperCard);
+        });
+
+        const brainPapersDiv = document.getElementById('menaBrainPapers');
+        menaBrainPapers.forEach(paper => {
+            const paperCard = document.createElement('div');
+            paperCard.className = 'paper-card green';
+            paperCard.innerHTML = `
+                <div class="paper-title">${paper.title}</div>
+                <div class="paper-meta">
+                    <span style="background: #bbf7d0;">📍 ${paper.country}</span>
+                    <span style="background: #bfdbfe;">📅 ${paper.year}</span>
+                </div>
+            `;
+            brainPapersDiv.appendChild(paperCard);
+        });
+
+        // Chart configurations
+        const chartColors = {
+            blue: '#0088FE',
+            green: '#00C49F',
+            yellow: '#FFBB28',
+            orange: '#FF8042',
+            purple: '#8884D8',
+            pink: '#82CA9D'
+        };
+
+        // Study Types Chart
+        const studyTypesCtx = document.getElementById('studyTypesChart');
+        if (studyTypesCtx) {
+            new Chart(studyTypesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['RCT', 'Cohort', 'Cross-sectional', 'Systematic Review', 'Meta-analysis', 'Other'],
+                    datasets: [{
+                        label: 'Body Growth',
+                        data: [104, 35, 38, 17, 46, 234],
+                        backgroundColor: chartColors.blue
+                    }, {
+                        label: 'Brain Growth',
+                        data: [36, 15, 2, 3, 4, 99],
+                        backgroundColor: chartColors.green
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Body Geography Chart
+        const bodyGeoCtx = document.getElementById('bodyGeoChart');
+        if (bodyGeoCtx) {
+            new Chart(bodyGeoCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Global/Other', 'East Africa', 'West Africa', 'Africa (unsp.)', 'MENA', 'Southern Africa', 'South Asia'],
+                    datasets: [{
+                        data: [229, 146, 39, 28, 14, 10, 8],
+                        backgroundColor: [chartColors.blue, chartColors.green, chartColors.yellow, chartColors.orange, chartColors.purple, chartColors.pink, '#FF6B6B']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Brain Geography Chart
+        const brainGeoCtx = document.getElementById('brainGeoChart');
+        if (brainGeoCtx) {
+            new Chart(brainGeoCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Global/Other', 'East Africa', 'West Africa', 'South Asia', 'Southeast Asia', 'MENA', 'Southern Africa'],
+                    datasets: [{
+                        data: [117, 14, 12, 9, 3, 2, 1],
+                        backgroundColor: [chartColors.blue, chartColors.green, chartColors.yellow, chartColors.orange, chartColors.purple, chartColors.pink, '#FF6B6B']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Top Countries Chart
+        const topCountriesCtx = document.getElementById('topCountriesChart');
+        if (topCountriesCtx) {
+            new Chart(topCountriesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Ethiopia', 'Malawi', 'Tanzania', 'Uganda', 'Burkina Faso', 'Ghana', 'Rwanda', 'South Africa', 'Niger', 'Nigeria', 'Kenya', 'Sudan', 'Mali', 'Pakistan', 'India'],
+                    datasets: [{
+                        label: 'Number of Studies',
+                        data: [83, 17, 14, 13, 12, 10, 9, 9, 9, 8, 8, 4, 4, 4, 4],
+                        backgroundColor: chartColors.blue
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Nutrients Chart
+        const nutrientsCtx = document.getElementById('nutrientsChart');
+        if (nutrientsCtx) {
+            new Chart(nutrientsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Iron', 'Zinc', 'Vit A', 'Vit D', 'Vit B12', 'Omega-3/DHA', 'Protein', 'Iodine', 'Multiple'],
+                    datasets: [{
+                        label: 'Body Growth Studies',
+                        data: [19, 11, 3, 11, 3, 7, 33, 0, 6],
+                        backgroundColor: chartColors.blue
+                    }, {
+                        label: 'Brain Growth Studies',
+                        data: [37, 7, 2, 4, 11, 41, 31, 4, 6],
+                        backgroundColor: chartColors.green
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Age Groups Chart
+        const ageGroupsCtx = document.getElementById('ageGroupsChart');
+        if (ageGroupsCtx) {
+            new Chart(ageGroupsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['0-6 months', '6-23 months', '2-5 years', '5+ years', 'Mixed/Unspecified'],
+                    datasets: [{
+                        label: 'Body Growth',
+                        data: [77, 33, 47, 9, 308],
+                        backgroundColor: chartColors.blue
+                    }, {
+                        label: 'Brain Growth',
+                        data: [67, 0, 1, 14, 77],
+                        backgroundColor: chartColors.green
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
