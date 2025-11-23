@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SLR: Children's Dietary Requirements & Development - Complete Analysis</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f3f4f6;
+      overflow: hidden;
+    }
+
+    .presentation-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide-container {
+      flex: 1;
+      background: white;
+      margin: 16px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide-header {
+      background: linear-gradient(to right, #2563eb, #1e40af);
+      color: white;
+      padding: 24px;
+    }
+
+    .slide-header h2 {
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    .slide-body {
+      flex: 1;
+      padding: 32px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .slide-body.active {
+      display: block;
+    }
+
+    /* Navigation - Hidden to maximize slide space */
+    .navigation {
+      display: none;
+    }
+
+    /* Slide-specific styles */
+    .title-slide {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .title-slide h1 {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    .title-slide h2 {
+      font-size: 32px;
+      margin-bottom: 32px;
+    }
+
+    .title-slide .subtitle {
+      font-size: 20px;
+      margin-top: 32px;
+    }
+
+    .title-slide .subtitle p {
+      margin: 8px 0;
+    }
+
+    .title-slide .subtitle p.bold {
+      font-weight: 600;
+      font-size: 24px;
+    }
+
+    /* Info boxes */
+    .info-box {
+      background: #eff6ff;
+      padding: 24px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+
+    .info-box h3 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-bottom: 16px;
+    }
+
+    .info-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .info-box ul li {
+      display: flex;
+      align-items: start;
+      margin: 12px 0;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .info-box ul li .bullet {
+      color: #2563eb;
+      margin-right: 12px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .rationale-box {
+      background: #fef3c7;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-style: italic;
+      color: #374151;
+    }
+
+    /* PCC boxes with gradients */
+    .pcc-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .pcc-box {
+      background: linear-gradient(to right, #eff6ff, #dbeafe);
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .pcc-box.concept {
+      background: linear-gradient(to right, #f0fdf4, #dcfce7);
+    }
+
+    .pcc-box.context {
+      background: linear-gradient(to right, #faf5ff, #f3e8ff);
+    }
+
+    .pcc-box h3 {
+      font-size: 20px;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-bottom: 12px;
+    }
+
+    .pcc-box.concept h3 {
+      color: #14532d;
+    }
+
+    .pcc-box.context h3 {
+      color: #581c87;
+    }
+
+    .pcc-box ul {
+      list-style: disc;
+      padding-left: 20px;
+      color: #4b5563;
+    }
+
+    .pcc-box ul li {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+
+    .pcc-note {
+      text-align: center;
+      font-size: 14px;
+      color: #6b7280;
+      font-style: italic;
+      margin-top: 16px;
+    }
+
+    /* Search strategy */
+    .search-box {
+      background: #eff6ff;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+
+    .search-box h3 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-bottom: 16px;
+    }
+
+    .search-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .search-col h4 {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .search-col ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .search-col ul li {
+      display: flex;
+      align-items: center;
+      margin: 8px 0;
+    }
+
+    .search-col ul li::before {
+      content: "✓";
+      color: #2563eb;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+
+    /* Criteria boxes */
+    .criteria-section-header {
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
+
+    .criteria-section-header.inclusion {
+      color: #16a34a;
+    }
+
+    .criteria-section-header.exclusion {
+      color: #dc2626;
+    }
+
+    .criteria-box {
+      background: #f9fafb;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+
+    .criteria-box h5 {
+      color: #1f2937;
+      margin-bottom: 10px;
+      font-size: 1.05em;
+      font-weight: bold;
+    }
+
+    .criteria-list {
+      margin-left: 20px;
+      line-height: 1.7;
+      font-size: 0.95em;
+    }
+
+    /* PRISMA boxes */
+    .prisma-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .prisma-box {
+      background: #dbeafe;
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .prisma-box.identification {
+      background: #dbeafe;
+      color: #1e3a8a;
+    }
+
+    .prisma-box.screening {
+      background: #dbeafe;
+      color: #1e3a8a;
+    }
+
+    .prisma-box.eligibility {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .prisma-box.included {
+      background: #fee2e2;
+      color: #991b1b;
+      font-size: 20px;
+    }
+
+    .prisma-arrow {
+      text-align: center;
+      font-size: 24px;
+      color: #2563eb;
+      margin: 8px 0;
+    }
+
+    /* Strategy boxes */
+    .strategy-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin: 24px 0;
+    }
+
+    .strategy-box {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-left: 5px solid;
+    }
+
+    .strategy-box.short-term {
+      border-color: #ea580c;
+    }
+
+    .strategy-box h4 {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      color: #1f2937;
+    }
+
+    .strategy-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .strategy-box ul li {
+      margin: 10px 0;
+      font-size: 14px;
+      line-height: 1.6;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .strategy-box ul li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #2563eb;
+      font-weight: bold;
+    }
+
+    /* Gap card */
+    .gap-card {
+      background: #fee2e2;
+      padding: 20px;
+      border-radius: 12px;
+      border-left: 5px solid #dc2626;
+    }
+
+    .gap-card h4 {
+      font-size: 18px;
+      font-weight: bold;
+      color: #991b1b;
+      margin-bottom: 12px;
+    }
+
+    .gap-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .gap-card ul li {
+      margin: 8px 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* Systems map */
+    .systems-map-visual {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      padding: 24px;
+      border-radius: 12px;
+      margin: 24px 0;
+    }
+
+    .system-layer {
+      margin-bottom: 24px;
+    }
+
+    .system-layer h5 {
+      font-size: 16px;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .system-nodes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .system-node {
+      background: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      font-weight: 500;
+    }
+
+    .system-node.outcome {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: white;
+      font-weight: bold;
+    }
+
+    .system-node.nutrients {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .system-node.food-sources {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .system-node.barriers {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .system-node.health {
+      background: #e0e7ff;
+      color: #4338ca;
+    }
+
+    .system-node.policy {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .system-node.cultural {
+      background: #f3e8ff;
+      color: #6b21a8;
+    }
+
+    .connection-explanation {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 24px;
+    }
+
+    .connection-explanation h4 {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-bottom: 12px;
+    }
+
+    .connection-explanation ul li {
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    /* Progress boxes */
+    .progress-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .progress-box {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .progress-header {
+      padding: 16px;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .progress-header.accomplished {
+      background: #2563eb;
+    }
+
+    .progress-header.planned {
+      background: #16a34a;
+    }
+
+    .progress-content {
+      padding: 20px;
+    }
+
+    .progress-content ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .progress-content ul li {
+      display: flex;
+      align-items: start;
+      margin: 12px 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .progress-content ul li::before {
+      margin-right: 12px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .progress-box.accomplished ul li::before {
+      content: "✓";
+      color: #2563eb;
+    }
+
+    .progress-box.planned ul li::before {
+      content: "→";
+      color: #16a34a;
+    }
+
+    /* Question boxes */
+    .question-box {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .question-item {
+      margin-bottom: 24px;
+    }
+
+    .question-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .question-header {
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .question-header.timeline {
+      background: #dc2626;
+    }
+
+    .question-header.population {
+      background: #16a34a;
+    }
+
+    .question-text {
+      font-size: 15px;
+      color: #374151;
+      line-height: 1.6;
+    }
+
+    /* Thank you slide */
+    .thank-you-slide {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .thank-you-slide h1 {
+      font-size: 64px;
+      font-weight: bold;
+      margin-bottom: 24px;
+    }
+
+    .thank-you-slide h2 {
+      font-size: 32px;
+      margin-bottom: 48px;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      font-size: 16px;
+      box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+    }
+
+    .highlight-box strong {
+      font-size: 18px;
+    }
+
+    /* Citation styles */
+    .citation {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .citation:hover {
+      text-decoration: underline;
+    }
+
+    /* References section */
+    .references-section {
+      background: #f9fafb;
+      padding: 24px;
+      border-radius: 12px;
+      margin-top: 24px;
+    }
+
+    .references-section h3 {
+      font-size: 22px;
+      font-weight: bold;
+      color: #1e3a8a;
+      margin-bottom: 16px;
+      border-bottom: 2px solid #2563eb;
+      padding-bottom: 8px;
+    }
+
+    .reference-item {
+      margin: 12px 0;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 1.6;
+      scroll-margin-top: 100px;
+    }
+
+    .reference-item:target {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding-left: 12px;
+    }
+
+    /* Remove highlight for reference 5 */
+    #ref5:target {
+      background: transparent;
+      border-left: none;
+      padding-left: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .comparison-grid,
+      .strategy-container,
+      .progress-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="presentation-container">
+    <div class="slide-container">
+      <div class="slide-header">
+        <h2 id="slideTitle">Systematic Literature Review</h2>
+      </div>
+      
+      <!-- Slide 1: Title -->
+      <div class="slide-body active">
+        <div class="title-slide">
+          <h1>🧠 Children's Dietary Requirements</h1>
+          <h2>Impact on Brain & Body Growth</h2>
+          <div class="subtitle">
+            <p class="bold">Focus: Children Under 5 Years in MENA Region</p>
+            <p>Systematic Literature Review - Complete Analysis</p>
+            <p style="margin-top: 20px; font-size: 18px;">Understanding Malnutrition Impact in Fragile Contexts</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2: Research Overview -->
+      <div class="slide-body">
+        <div class="info-box">
+          <h3>🎯 Research Focus</h3>
+          <ul>
+            <li><span class="bullet">•</span><span><strong>Population:</strong> Children under 5 years of age</span></li>
+            <li><span class="bullet">•</span><span><strong>Primary Focus:</strong> Brain growth and cognitive development</span></li>
+            <li><span class="bullet">•</span><span><strong>Extended Focus:</strong> Full-body growth (holistic approach)</span></li>
+            <li><span class="bullet">•</span><span><strong>Key Question:</strong> How does malnutrition affect brain and body growth in children?</span></li>
+            <li><span class="bullet">•</span><span><strong>Regional Priority:</strong> MENA region with emphasis on fragile contexts</span></li>
+            <li><span class="bullet">•</span><span><strong>Strategic Goal:</strong> Improve access to minimum acceptable diet in fragile MENA region</span></li>
+          </ul>
+        </div>
+        <div class="rationale-box">
+          <strong>Holistic Rationale:</strong> "You can't grow a brain without a body" - Understanding full-body malnutrition provides crucial context for localized symptoms that affect brain development. This comprehensive approach enables mapping of nutritional deficiencies to brain development outcomes in MENA contexts.
+        </div>
+      </div>
+
+      <!-- Slide 3: PCC Framework -->
+      <div class="slide-body">
+        <h2 style="color: #1e3a8a; font-size: 2em; margin-bottom: 24px;">PCC Framework: Review Questions</h2>
+        <div class="pcc-container">
+          <div class="pcc-box">
+            <h3>👥 Population</h3>
+            <ul>
+              <li>Children under 5 years</li>
+              <li>Subgroups: infants (0-12m), toddlers (1-3y), preschool (3-5y)</li>
+              <li>Including preterm children</li>
+              <li>MENA region focus (Africa/MENA for body growth)</li>
+            </ul>
+          </div>
+          
+          <div class="pcc-box concept">
+            <h3>💡 Concept</h3>
+            <ul>
+              <li>Dietary patterns & nutrient intake</li>
+              <li>Nutritional deficiencies (iron, iodine, zinc, vitamin A)</li>
+              <li>Malnutrition indicators (stunting, wasting, underweight)</li>
+              <li>Food insecurity impacts</li>
+            </ul>
+          </div>
+          
+          <div class="pcc-box context">
+            <h3>🌍 Context</h3>
+            <ul>
+              <li>Brain growth & cognitive development</li>
+              <li>Full-body growth outcomes</li>
+              <li>Neurodevelopmental measures</li>
+              <li>Fragile/conflict-affected settings</li>
+            </ul>
+          </div>
+        </div>
+        <p class="pcc-note">PRISMA guidelines followed throughout the systematic review process</p>
+      </div>
+
+      <!-- Slide 4: Methodology -->
+      <div class="slide-body">
+        <div class="search-box">
+          <h3>🔍 Search Strategy</h3>
+          <div class="search-grid">
+            <div class="search-col">
+              <h4>Databases Used:</h4>
+              <ul>
+                <li>PubMed (biomedical focus)</li>
+                <li>Scopus (multidisciplinary)</li>
+                <li>Web of Science (broad coverage)</li>
+              </ul>
+            </div>
+            <div class="search-col">
+              <h4>Parameters:</h4>
+              <p><strong>Time Frame:</strong> 2015-2026 (recent 10 years)</p>
+              <p><strong>Language:</strong> English</p>
+              <p><strong>Publication Types:</strong> Peer-reviewed articles, RCTs, systematic reviews</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="search-box" style="background: #f0fdf4;">
+          <h3 style="color: #14532d;">Search Strings</h3>
+          <div style="margin-bottom: 16px;">
+            <p style="font-weight: 600; color: #374151; margin-bottom: 8px;">🧠 Brain Growth Query:</p>
+            <div style="background: white; padding: 12px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 13px; color: #4b5563;">
+              (children OR child OR pediatric) AND (nutrition OR diet OR malnutrition OR undernourishment) AND brain AND (development OR growth OR cognitive OR neurological)
+            </div>
+          </div>
+          <div>
+            <p style="font-weight: 600; color: #374151; margin-bottom: 8px;">📏 Full-Body Growth Query:</p>
+            <div style="background: white; padding: 12px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 13px; color: #4b5563;">
+              (children OR child OR pediatric) AND (nutrition OR diet OR malnutrition OR undernourishment) AND (development OR growth)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 5: Selection Criteria -->
+      <div class="slide-body">
+        <h2 style="color: #1e3a8a; font-size: 2em; margin-bottom: 24px;">📋 Selection Criteria</h2>
+        
+        <h3 class="criteria-section-header inclusion">✅ Inclusion Criteria</h3>
+
+        <div class="criteria-box" style="border-color: #16a34a; background: #f0fdf4;">
+          <h5 style="color: #16a34a;">👥 Population</h5>
+          <ul class="criteria-list">
+            <li>Children under 5 years</li>
+            <li>Subgroups: infants (0-12 months), toddlers (1-3 years), preschool-age (3-5 years)</li>
+            <li>Including preterm children requiring specialized nutrition</li>
+          </ul>
+        </div>
+
+        <div class="criteria-box" style="border-color: #16a34a; background: #f0fdf4;">
+          <h5 style="color: #16a34a;">💡 Concept - Dietary Focus</h5>
+          <ul class="criteria-list">
+            <li>Dietary patterns and nutrient intake (macro and micronutrients)</li>
+            <li>Nutritional deficiencies (iron, iodine, zinc, vitamin A, DHA, protein)</li>
+            <li>Malnutrition indicators (stunting, wasting, underweight)</li>
+            <li>Food insecurity and dietary diversity measures</li>
+          </ul>
+        </div>
+
+        <div class="criteria-box" style="border-color: #16a34a; background: #f0fdf4;">
+          <h5 style="color: #16a34a;">🌍 Context & Outcomes</h5>
+          <ul class="criteria-list">
+            <li>Brain growth and cognitive development</li>
+            <li>Full-body growth measurements and developmental milestones</li>
+            <li>Neurodevelopmental outcomes (attention, memory, learning)</li>
+            <li>Fragile/conflict-affected settings (for MENA applicability)</li>
+          </ul>
+        </div>
+
+        <div class="criteria-box" style="border-color: #16a34a; background: #f0fdf4;">
+          <h5 style="color: #16a34a;">📝 Publication Types</h5>
+          <ul class="criteria-list">
+            <li>Journal articles, randomized controlled trials (RCTs)</li>
+            <li>Systematic reviews, meta-analyses, scoping reviews</li>
+            <li>Observational studies, cohort studies, cross-sectional studies</li>
+            <li>Clinical trials, multicenter studies</li>
+          </ul>
+        </div>
+
+        <div class="criteria-box" style="border-color: #16a34a; background: #f0fdf4;">
+          <h5 style="color: #16a34a;">🔍 Additional Parameters</h5>
+          <ul class="criteria-list">
+            <li><strong>Language:</strong> English only</li>
+            <li><strong>Time Frame:</strong> 2015-2026 (recent 10 years)</li>
+            <li><strong>Geographic Focus (Body Growth):</strong> Africa and MENA region</li>
+          </ul>
+        </div>
+
+        <h3 class="criteria-section-header exclusion">❌ Exclusion Criteria</h3>
+
+        <div class="criteria-box" style="border-color: #dc2626; background: #fef2f2;">
+          <h5 style="color: #dc2626;">👥 Population</h5>
+          <ul class="criteria-list">
+            <li>Adults, elderly populations</li>
+            <li>Animal-only studies</li>
+            <li>Studies with populations primarily over 5 years of age</li>
+          </ul>
+        </div>
+
+        <div class="criteria-box" style="border-color: #dc2626; background: #fef2f2;">
+          <h5 style="color: #dc2626;">📝 Publication Types</h5>
+          <ul class="criteria-list">
+            <li>Case reports, editorials, opinion pieces</li>
+            <li>Non-peer-reviewed sources (blogs, theses, dissertations)</li>
+            <li>Government/NGO reports without peer review</li>
+            <li>Research support documents</li>
+          </ul>
+        </div>
+
+        <div class="criteria-box" style="border-color: #dc2626; background: #fef2f2;">
+          <h5 style="color: #dc2626;">🧠 Brain Growth Specific Exclusions</h5>
+          <ul class="criteria-list">
+            <li>Studies focusing on maternal nutrition/breastfeeding (maternal pathway rather than direct child nutrition)</li>
+            <li>Illness recovery studies (therapeutic nutrition for disease states)</li>
+            <li>Obesity/overnutrition studies (focus is on undernutrition)</li>
+            <li>Clinical populations with neurological disorders unrelated to nutrition</li>
+          </ul>
+        </div>
+
+        <div class="criteria-box" style="border-color: #dc2626; background: #fef2f2;">
+          <h5 style="color: #dc2626;">📏 Body Growth Specific Exclusions</h5>
+          <ul class="criteria-list">
+            <li>Studies not focused on Africa/MENA regions (geographic relevance)</li>
+            <li>Machine learning methodology papers (methodological focus rather than nutritional intervention)</li>
+            <li>Food security studies without growth outcomes</li>
+            <li>Laboratory-based studies (in vitro, outside the body)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Slide 6: PRISMA Brain Growth -->
+      <div class="slide-body">
+        <h2 style="color: #1e3a8a; font-size: 2em; margin-bottom: 24px;">📊 PRISMA Flow: Brain Growth Track</h2>
+        <div class="prisma-container">
+          <div class="prisma-box identification">
+            <strong>IDENTIFICATION</strong><br>
+            Scopus: 1,358 | PubMed: 304<br>
+            <strong style="font-size: 20px;">Total Records: 1,662</strong>
+          </div>
+          <div class="prisma-arrow">↓</div>
+          
+          <div class="prisma-box screening">
+            <strong>SCREENING</strong><br>
+            Duplicates removed: 138<br>
+            Records screened: 1,524<br>
+            Records excluded: 1,231
+          </div>
+          <div class="prisma-arrow">↓</div>
+          
+          <div class="prisma-box eligibility">
+            <strong>ELIGIBILITY</strong><br>
+            Full-text articles assessed: 293<br>
+            Full-text excluded: 121
+          </div>
+          <div class="prisma-arrow">↓</div>
+          
+          <div class="prisma-box included">
+            <strong>INCLUDED</strong><br>
+            Studies included in review: 159
+          </div>
+        </div>
+        
+        <div style="margin-top: 32px; padding: 20px; background: #eff6ff; border-radius: 12px; border-left: 5px solid #2563eb;">
+          <h4 style="color: #1e40af; margin-bottom: 12px;">Key Metrics</h4>
+          <p style="font-size: 15px; line-height: 1.8; color: #374151;">
+            <strong>Initial Records:</strong> 1,662<br>
+            <strong>After Deduplication:</strong> 1,524 (138 duplicates removed)<br>
+            <strong>Title/Abstract Screening Inclusion Rate:</strong> 19.2% (293 of 1,524)<br>
+            <strong>Full-Text Screening Inclusion Rate:</strong> 58.7% (159 of 293)<br>
+            <strong>Overall Inclusion Rate:</strong> 10.4% (159 of 1,524)<br>
+            <strong>Top Exclusion Reason:</strong> Breastfeeding/Maternal focus (46% of full-text exclusions)
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 7: PRISMA Full-Body Growth -->
+      <div class="slide-body">
+        <h2 style="color: #1e3a8a; font-size: 2em; margin-bottom: 24px;">📊 PRISMA Flow: Full-Body Growth Track</h2>
+        <div class="prisma-container">
+          <div class="prisma-box identification">
+            <strong>IDENTIFICATION</strong><br>
+            Scopus: 13,917 | PubMed: 56 | Web of Science: 100<br>
+            <strong style="font-size: 20px;">Total Records: 14,073</strong>
+          </div>
+          <div class="prisma-arrow">↓</div>
+          
+          <div class="prisma-box screening">
+            <strong>SCREENING</strong><br>
+            Duplicates removed: 115<br>
+            Records screened: 13,958<br>
+            Records excluded: 13,013
+          </div>
+          <div class="prisma-arrow">↓</div>
+          
+          <div class="prisma-box eligibility">
+            <strong>ELIGIBILITY</strong><br>
+            Full-text articles assessed: 945<br>
+            Full-text excluded: 468
+          </div>
+          <div class="prisma-arrow">↓</div>
+          
+          <div class="prisma-box included">
+            <strong>INCLUDED</strong><br>
+            Studies included in review: 474
+          </div>
+        </div>
+        
+        <div style="margin-top: 32px; padding: 20px; background: #f0fdf4; border-radius: 12px; border-left: 5px solid #16a34a;">
+          <h4 style="color: #15803d; margin-bottom: 12px;">Key Metrics</h4>
+          <p style="font-size: 15px; line-height: 1.8; color: #374151;">
+            <strong>Initial Records:</strong> 14,073<br>
+            <strong>After Deduplication:</strong> 13,958 (115 duplicates removed)<br>
+            <strong>Title/Abstract Screening Inclusion Rate:</strong> 6.8% (945 of 13,958)<br>
+            <strong>Full-Text Screening Inclusion Rate:</strong> 50.2% (474 of 945)<br>
+            <strong>Overall Inclusion Rate:</strong> 3.4% (474 of 13,958)<br>
+            <strong>Top Exclusion Reason:</strong> Not Africa/MENA region (39.3% of full-text exclusions)
+          </p>
+        </div>
+      </div>
+
+      <!-- Slide 8: MENA Minimum Acceptable Diet (IMPROVED WITH CITATIONS) -->
+      <div class="slide-body">
+        <h2 style="color: #1e3a8a; font-size: 2em; margin-bottom: 16px;">🎯 MENA Minimum Acceptable Diet</h2>
+        <div style="background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 16px; border-radius: 12px; margin-bottom: 24px; text-align: center;">
+          <p style="font-size: 18px; font-weight: bold; color: #92400e;">
+            How can we improve access to a minimum acceptable diet for children under five in the fragile MENA region?
+          </p>
+        </div>
+
+        <div class="strategy-container">
+          <div class="strategy-box short-term">
+            <h4>⚡ Evidence-Based Short-Term Interventions (0-12 months)</h4>
+            <ul>
+              <li><strong>Priority nutrient supplementation:</strong> Iron (most frequently studied micronutrient across diverse geographical regions <a href="#ref1" class="citation">[1]</a>), DHA/omega-3 fatty acids (widespread research focus, particularly critical for brain development in African regions <a href="#ref1" class="citation">[1]</a>), vitamin B12 (essential for myelination and neurodevelopment <a href="#ref2" class="citation">[2]</a><a href="#ref3" class="citation">[3]</a>), zinc (critical for brain function, especially in preterm infants <a href="#ref4" class="citation">[4]</a>), and iodine (demonstrated cognitive benefits in MENA contexts <a href="#ref5" class="citation">[5]</a>)</li>
+              <li><strong>Scale proven fortification programs:</strong> Implement Morocco iodine fortification model which demonstrated significant cognitive improvements in schoolchildren <a href="#ref5" class="citation">[5]</a>; fortification shows notable presence in African regions, particularly in addressing micronutrient deficiencies <a href="#ref1" class="citation">[1]</a></li>
+              <li><strong>School feeding programs:</strong> Evidence demonstrates strong nutrition-learning connection and benefits for developmental outcomes <a href="#ref6" class="citation">[6]</a><a href="#ref7" class="citation">[7]</a>. While targeting school-age children, these programs serve dual purposes: (1) addressing current nutritional deficits in older children who experienced early malnutrition, and (2) motivating families to keep younger siblings healthy to benefit from future school feeding opportunities, thereby creating preventive incentives for early childhood nutrition</li>
+              <li><strong>Age-stratified interventions:</strong> Design interventions tailored to specific developmental windows—infants (0–12 months, the most critical period for brain development <a href="#ref8" class="citation">[8]</a><a href="#ref9" class="citation">[9]</a>), toddlers (1–3 years, transition to family foods), and preschool children (3–5 years, preparation for school readiness)—recognizing distinct nutritional needs and delivery mechanisms at each stage</li>
+              <li><strong>Target critical first 1000 days:</strong> Prioritize 0-12 month window as evidence consistently identifies this as peak intervention opportunity for protecting brain development <a href="#ref8" class="citation">[8]</a><a href="#ref10" class="citation">[10]</a></li>
+              <li><strong>Community nutrition education:</strong> Promote complementary feeding practices, dietary diversity, and growth monitoring with culturally adapted messaging</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="gap-card" style="margin-top: 24px;">
+          <h4>💡 Evidence-Based Priority Actions</h4>
+          <ul style="font-size: 15px;">
+            <li><strong>Fortification programs (PRIORITY 1):</strong> Cost-effective with population-wide reach; proven effectiveness in Morocco <a href="#ref5" class="citation">[5]</a> and strong regional focus in Africa <a href="#ref1" class="citation">[1]</a>; scale to salt, flour, oil, and milk</li>
+            <li><strong>Whole food interventions (PRIORITY 2):</strong> Effectiveness demonstrated for eggs and other animal-source foods <a href="#ref6" class="citation">[6]</a>; culturally appropriate for MENA contexts</li>
+            <li><strong>First 1000 days focus (PRIORITY 3):</strong> Multiple studies emphasize 0-12 month window as critical for neurodevelopment <a href="#ref8" class="citation">[8]</a><a href="#ref9" class="citation">[9]</a><a href="#ref10" class="citation">[10]</a>; allocate maximum resources to this period</li>
+            <li><strong>Conflict-sensitive approaches:</strong> Yemen, Syria, Palestine require specialized emergency nutrition programs adapted to instability</li>
+            <li><strong>Multi-system coordination:</strong> Address nutrients, food sources, barriers, health systems, policy, and cultural factors simultaneously for sustainable impact</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Slide 9: SYSTEMS MAP (STUDY COUNTS REMOVED) -->
+      <div class="slide-body">
+        <h2 style="color: #1e3a8a; font-size: 2em; margin-bottom: 24px;">🗺️ Systems Map: Child Nutrition in Fragile MENA</h2>
+        
+        <div class="systems-map-visual">
+          <div class="system-layer">
+            <h5>🎯 Central Outcome</h5>
+            <div class="system-nodes">
+              <div class="system-node outcome" style="font-size: 16px; padding: 12px 24px;">
+                Minimum Acceptable Diet → Healthy Brain & Body Growth
+              </div>
+            </div>
+          </div>
+
+          <div class="system-layer">
+            <h5>🥗 Nutritional Components (What Children Need)</h5>
+            <div class="system-nodes">
+              <div class="system-node nutrients">Iron</div>
+              <div class="system-node nutrients">Iodine</div>
+              <div class="system-node nutrients">Zinc</div>
+              <div class="system-node nutrients">Vitamin A</div>
+              <div class="system-node nutrients">DHA/Omega-3</div>
+              <div class="system-node nutrients">Protein</div>
+              <div class="system-node nutrients">Vitamin B12</div>
+              <div class="system-node nutrients">Folate</div>
+              <div class="system-node nutrients">Choline</div>
+            </div>
+          </div>
+
+          <div class="system-layer">
+            <h5>🍽️ Food Sources (How Nutrients Are Delivered)</h5>
+            <div class="system-nodes">
+              <div class="system-node food-sources">Fortified Foods (flour, oil, milk, salt)</div>
+              <div class="system-node food-sources">Animal Source Foods (eggs, dairy, fish, meat)</div>
+              <div class="system-node food-sources">Local Traditional Foods</div>
+              <div class="system-node food-sources">Supplements (targeted for deficiencies)</div>
+              <div class="system-node food-sources">Complementary Foods</div>
+            </div>
+          </div>
+
+          <div class="system-layer">
+            <h5>⚠️ Barriers (What Prevents Access)</h5>
+            <div class="system-nodes">
+              <div class="system-node barriers">Food Insecurity</div>
+              <div class="system-node barriers">Conflict/Instability</div>
+              <div class="system-node barriers">Poverty</div>
+              <div class="system-node barriers">Limited Availability</div>
+              <div class="system-node barriers">Affordability Issues</div>
+              <div class="system-node barriers">Supply Chain Disruption</div>
+            </div>
+          </div>
+
+          <div class="system-layer">
+            <h5>🏥 Health & Service Systems</h5>
+            <div class="system-nodes">
+              <div class="system-node health">Maternal & Child Health Programs</div>
+              <div class="system-node health">School Feeding Programs</div>
+              <div class="system-node health">Nutrition Education</div>
+              <div class="system-node health">Supplementation Programs</div>
+              <div class="system-node health">Growth Monitoring</div>
+            </div>
+          </div>
+
+          <div class="system-layer">
+            <h5>📊 Policy & Economic Context</h5>
+            <div class="system-nodes">
+              <div class="system-node policy">Food Security Policies</div>
+              <div class="system-node policy">Social Protection Programs</div>
+              <div class="system-node policy">Subsidies</div>
+              <div class="system-node policy">Agricultural Investment</div>
+              <div class="system-node policy">Humanitarian Aid</div>
+              <div class="system-node policy">Fortification Mandates</div>
+            </div>
+          </div>
+
+          <div class="system-layer">
+            <h5>👥 Cultural & Social Factors</h5>
+            <div class="system-nodes">
+              <div class="system-node cultural">Feeding Practices</div>
+              <div class="system-node cultural">Cultural Beliefs</div>
+              <div class="system-node cultural">Caregiver Knowledge</div>
+              <div class="system-node cultural">Gender Norms</div>
+              <div class="system-node cultural">Community Acceptance</div>
+            </div>
+          </div>
+
+          <div style="background: #fef3c7; padding: 16px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #f59e0b;">
+            <p style="font-weight: bold; color: #92400e; margin-bottom: 8px;">⏰ CRITICAL INTERVENTION WINDOW</p>
+            <p style="color: #374151; font-size: 14px;">0-12 months (First 1000 Days) - All system components must be optimized during this period for maximum impact on brain development <a href="#ref8" class="citation">[8]</a><a href="#ref10" class="citation">[10]</a></p>
+          </div>
+        </div>
+
+        <div class="connection-explanation">
+          <h4>🔗 Key System Interconnections</h4>
+          <ul style="font-size: 14px;">
+            <li><strong>Food Insecurity → Reduced Dietary Diversity → Poor Growth:</strong> When food systems fail (conflict, poverty), families rely on cheap staples (rice, bread) lacking essential micronutrients</li>
+            <li><strong>Conflict → Multiple System Failures:</strong> Disrupts food production, destroys health infrastructure, displaces populations, impoverishes families</li>
+            <li><strong>Cultural Practices ↔ Food Sources:</strong> Interventions must align with cultural norms - what foods are considered appropriate for children?</li>
+            <li><strong>Policy → Health Systems → Outcomes:</strong> Strong policies enable effective health systems. Example: Morocco iodine fortification policy → nationwide implementation → improved cognitive outcomes <a href="#ref5" class="citation">[5]</a></li>
+            <li><strong>Multi-System Approach Required:</strong> Single-system interventions insufficient in fragile contexts. Must coordinate across health, agriculture, education, social protection sectors</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Slide 10: Progress & Next Steps (EDITED) -->
+      <div class="slide-body">
+        <h2 style="color: #1e3a8a; font-size: 2em; margin-bottom: 24px;">📈 Progress & Next Steps</h2>
+        
+        <div class="progress-container">
+          <div class="progress-box accomplished">
+            <div class="progress-header accomplished">✅ Accomplished - Systematic Review Complete</div>
+            <div class="progress-content">
+              <ul>
+                <li>Completed dual-track SLR with rigorous PRISMA methodology (1,662 brain + 14,073 body initial records)</li>
+                <li>Identified and screened 159 brain-focused and 474 body-focused high-quality studies</li>
+                <li>Analyzed exclusion patterns and documentation quality across both datasets</li>
+                <li>Identified critical MENA research gap: only 4.7% brain studies and 3.2% body studies from region</li>
+                <li>Comprehensive dashboard and analysis tools created for visualization</li>
+                <li>Developed systems map to visualize interconnected subsystems affecting child nutrition in fragile MENA contexts</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="progress-box planned">
+            <div class="progress-header planned">→ Current Phase: Manuscript Development & Evidence Synthesis</div>
+            <div class="progress-content">
+              <ul>
+                <li>Drafting SLR paper: "Impact of Nutrition on Brain Growth and Development in Children Under 5 Years: A Systematic Review with Emphasis on MENA Region Applicability"</li>
+                <li>Conducting full-text data extraction and synthesis from 159 brain growth studies</li>
+                <li>Mapping nutritional components (iron, iodine, zinc, DHA, protein, B12) to localized malnutrition symptoms</li>
+                <li>Analyzing food sources currently available in MENA context for identified nutrients</li>
+                <li>Additional literature review on food insecurity linked with children under 5 in fragile contexts</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 11: Questions for Discussion -->
+      <div class="slide-body">
+        <h2 style="color: #1e3a8a; font-size: 2em; margin-bottom: 24px;">💬 Questions for Discussion</h2>
+        
+        <div class="question-box">
+          <div class="question-item">
+            <div class="question-header timeline">⏰ Timeline & Milestones</div>
+            <p class="question-text">
+              <strong>Current status:</strong> Manuscript drafting phase.<br><br>
+              <strong>Question:</strong> What are the key milestones and submission timeline for journal publication? Are there specific deadlines or conference presentations we should target to maximize impact?
+            </p>
+          </div>
+          
+          <div class="question-item">
+            <div class="question-header population">👶 Population Scope Clarification</div>
+            <p class="question-text">
+              <strong>Question:</strong> Should preterm hospitalized children be included in the under-5 population analysis?<br><br>
+              <strong>Context:</strong> They receive specialized treatments and supplements (often in NICU settings) that may differ significantly from community-based interventions. Their inclusion could provide insights into intensive nutrition support but may not generalize to typical MENA community contexts.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 12: References -->
+      <div class="slide-body">
+        <div class="references-section">
+          <h3>📚 References</h3>
+          
+          <div class="reference-item" id="ref1">
+            <strong>[1]</strong> Systematic analysis of nutrient-location co-occurrence patterns across 159 brain growth studies (current analysis). Key findings: Iron is the most frequently studied micronutrient across diverse geographical regions; DHA/ARA show widespread research interest, particularly in African regions and Australia/New Zealand; fortification interventions show notable presence in African regions (co-occurrence count of 6 across Africa, African regions, and South Africa).
+          </div>
+
+          <div class="reference-item" id="ref2">
+            <strong>[2]</strong> Jembere, F., et al. (2024). Prenatal Vitamin B12 and Children's Brain Development and Cognitive, Language and Motor Outcomes: A Scoping Review. <em>Children</em>, 11(12). DOI: 10.3390/children11121476
+          </div>
+
+          <div class="reference-item" id="ref3">
+            <strong>[3]</strong> Oliphant, K., et al. (2024). Microbiome function and neurodevelopment in Black infants: vitamin B12 emerges as a key factor. <em>Gut Microbes</em>, 16(1). DOI: 10.1080/19490976.2024.2307542
+          </div>
+
+          <div class="reference-item" id="ref4">
+            <strong>[4]</strong> Chamakioti, M., et al. (2024). The role of zinc in the premature brain: functions, outcomes and future research perspectives. <em>Frontiers in Pediatrics</em>, 12. DOI: 10.3389/fped.2024.1405496
+          </div>
+
+          <div class="reference-item" id="ref5">
+            <strong>[5]</strong> Zahrou, F.E., et al. (2016). Fortified Iodine Milk Improves Iodine Status and Cognitive Abilities in Schoolchildren Aged 7-9 Years Living in a Rural Mountainous Area of Morocco. <em>Journal of Nutrition and Metabolism</em>, 2016. DOI: 10.1155/2016/7609868
+          </div>
+
+          <div class="reference-item" id="ref6">
+            <strong>[6]</strong> Akpene Amenya, P.C.A., et al. (2024). The effectiveness of egg supplementation on nutritional status, physical fitness and cognition of school-aged children (8–12 Years) in Ho Municipality, Ghana. <em>Human Nutrition and Metabolism</em>, 35. DOI: 10.1016/j.hnm.2023.200239
+          </div>
+
+          <div class="reference-item" id="ref7">
+            <strong>[7]</strong> Cohen, J.F.W., et al. (2020). The impact of micronutrient fortified foods on cognitive functioning among low-income children: A pilot and feasibility study. <em>Nutrients</em>, 12(7), 1-14. DOI: 10.3390/nu12072097
+          </div>
+
+          <div class="reference-item" id="ref8">
+            <strong>[8]</strong> McCarthy, E.K., et al. (2022). Iron deficiency during the first 1000 days of life: are we doing enough to protect the developing brain? <em>Proceedings of the Nutrition Society</em>, 81(3), 312-326. DOI: 10.1017/S002966512200071X
+          </div>
+
+          <div class="reference-item" id="ref9">
+            <strong>[9]</strong> Krebs, N.F., et al. (2017). Neurodevelopment: The impact of nutrition and inflammation during infancy in low-resource settings. <em>Pediatrics</em>, 139(Supplement 1), S38-S49. DOI: 10.1542/peds.2016-2828F
+          </div>
+
+          <div class="reference-item" id="ref10">
+            <strong>[10]</strong> Vir, S.C., et al. (2023). Young Child Undernutrition: Crucial to Prioritize Nutrition Interventions in the First 1000 Days of Life. <em>Indian Journal of Pediatrics</em>, 90(1), 75-82. DOI: 10.1007/s12098-022-04394-1
+          </div>
+
+          <div class="reference-item" id="ref11">
+            <strong>[11]</strong> Ottolini, K.M., et al. (2024). Brain development using a multicomponent intravenous lipid emulsion in preterm infants. <em>BMC Pediatrics</em>, 24(1), 750. DOI: 10.1186/s12887-024-05330-9
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 13: Thank You -->
+      <div class="slide-body">
+        <div class="thank-you-slide">
+          <h1>🙏 Thank You</h1>
+          <h2>Questions & Feedback Welcome</h2>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slideBodies = document.querySelectorAll('.slide-body');
+    const totalSlides = slideBodies.length;
+    
+    const slideTitles = [
+      "Systematic Literature Review - Complete Analysis",
+      "Research Overview & Strategic Focus",
+      "PCC Framework: Review Questions",
+      "Methodology & Search Strategy",
+      "Selection Criteria - Inclusion & Exclusion",
+      "PRISMA Flow: Brain Growth Track",
+      "PRISMA Flow: Full-Body Growth Track",
+      "MENA Minimum Acceptable Diet",
+      "Systems Map: Child Nutrition in Fragile MENA",
+      "Progress & Next Steps",
+      "Questions for Discussion",
+      "References",
+      "Thank You"
+    ];
+
+    function updateSlide() {
+      slideBodies.forEach((slide, index) => {
+        slide.classList.remove('active');
+        if (index === currentSlide) {
+          slide.classList.add('active');
+        }
+      });
+
+      document.getElementById('slideTitle').textContent = slideTitles[currentSlide];
+    }
+
+    function changeSlide(direction) {
+      currentSlide += direction;
+      if (currentSlide < 0) currentSlide = 0;
+      if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+      updateSlide();
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateSlide();
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') changeSlide(-1);
+      if (e.key === 'ArrowRight') changeSlide(1);
+    });
+
+    // Handle citation clicks - navigate to References slide first
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('citation')) {
+        e.preventDefault();
+        const refId = e.target.getAttribute('href').substring(1); // Remove the '#'
+        
+        // Navigate to References slide (index 11, the 12th slide)
+        currentSlide = 11;
+        updateSlide();
+        
+        // After slide transition, scroll to the reference
+        setTimeout(() => {
+          const refElement = document.getElementById(refId);
+          if (refElement) {
+            refElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 100);
+      }
+    });
+
+    updateSlide();
+  </script>
+</body>
+</html>
