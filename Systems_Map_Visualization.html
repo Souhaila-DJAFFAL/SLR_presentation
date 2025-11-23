@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systems Map: Child Nutrition in Fragile MENA Region</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 1400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #1e3a8a;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 12px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .legend-box {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            border: 2px solid;
+        }
+        .outcome { background: #fee2e2; border-color: #dc2626; }
+        .nutrients { background: #dbeafe; border-color: #3b82f6; }
+        .food-sources { background: #fef3c7; border-color: #f59e0b; }
+        .barriers { background: #fee2e2; border-color: #dc2626; opacity: 0.7; }
+        .health-systems { background: #dcfce7; border-color: #16a34a; }
+        .policy { background: #e0e7ff; border-color: #6366f1; }
+        .cultural { background: #f3e8ff; border-color: #a855f7; }
+        
+        svg {
+            width: 100%;
+            height: auto;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            background: #fafafa;
+        }
+        
+        .description {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f0f9ff;
+            border-radius: 12px;
+            border-left: 5px solid #2563eb;
+        }
+        .description h3 {
+            color: #1e40af;
+            margin-bottom: 15px;
+        }
+        .description p {
+            line-height: 1.8;
+            color: #374151;
+            margin-bottom: 15px;
+        }
+        .key-connections {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fef3c7;
+            border-radius: 12px;
+        }
+        .key-connections h4 {
+            color: #92400e;
+            margin-bottom: 12px;
+        }
+        .key-connections ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗺️ Systems Map: Child Nutrition in Fragile MENA</h1>
+        <p class="subtitle">Interconnected Subsystems Affecting Minimum Acceptable Diet for Children Under 5</p>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box outcome"></div>
+                <span><strong>Central Outcome</strong></span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box nutrients"></div>
+                <span><strong>Nutritional Components</strong></span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box food-sources"></div>
+                <span><strong>Food Sources</strong></span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box barriers"></div>
+                <span><strong>Barriers</strong></span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box health-systems"></div>
+                <span><strong>Health Systems</strong></span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box policy"></div>
+                <span><strong>Policy & Economic</strong></span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box cultural"></div>
+                <span><strong>Cultural & Social</strong></span>
+            </div>
+        </div>
+
+        <svg viewBox="0 0 1200 900" xmlns="http://www.w3.org/2000/svg">
+            <!-- Define arrow marker -->
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                    <polygon points="0 0, 10 3, 0 6" fill="#6b7280" />
+                </marker>
+                <marker id="arrowred" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                    <polygon points="0 0, 10 3, 0 6" fill="#dc2626" />
+                </marker>
+            </defs>
+
+            <!-- Central Outcome (Center) -->
+            <rect x="450" y="400" width="300" height="100" rx="15" fill="#fee2e2" stroke="#dc2626" stroke-width="3"/>
+            <text x="600" y="435" text-anchor="middle" font-size="16" font-weight="bold" fill="#991b1b">
+                CENTRAL OUTCOME
+            </text>
+            <text x="600" y="460" text-anchor="middle" font-size="14" fill="#991b1b">
+                Minimum Acceptable Diet
+            </text>
+            <text x="600" y="480" text-anchor="middle" font-size="14" fill="#991b1b">
+                → Healthy Brain &amp; Body Growth
+            </text>
+
+            <!-- Nutritional Components (Top Left) -->
+            <rect x="50" y="50" width="180" height="140" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="2"/>
+            <text x="140" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">
+                Nutrients Needed
+            </text>
+            <text x="140" y="95" text-anchor="middle" font-size="11" fill="#1e40af">Iron</text>
+            <text x="140" y="110" text-anchor="middle" font-size="11" fill="#1e40af">Iodine</text>
+            <text x="140" y="125" text-anchor="middle" font-size="11" fill="#1e40af">Zinc, Vit A</text>
+            <text x="140" y="140" text-anchor="middle" font-size="11" fill="#1e40af">DHA/Omega-3</text>
+            <text x="140" y="155" text-anchor="middle" font-size="11" fill="#1e40af">Protein, B12</text>
+            <line x1="230" y1="120" x2="450" y2="420" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+            <!-- Food Sources (Top Right) -->
+            <rect x="970" y="50" width="180" height="140" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+            <text x="1060" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400e">
+                Food Sources
+            </text>
+            <text x="1060" y="95" text-anchor="middle" font-size="11" fill="#92400e">Fortified Foods</text>
+            <text x="1060" y="110" text-anchor="middle" font-size="11" fill="#92400e">Animal Foods</text>
+            <text x="1060" y="125" text-anchor="middle" font-size="11" fill="#92400e">Local Foods</text>
+            <text x="1060" y="140" text-anchor="middle" font-size="11" fill="#92400e">Supplements</text>
+            <line x1="970" y1="120" x2="750" y2="420" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+            <!-- Barriers (Bottom Left) -->
+            <rect x="50" y="710" width="250" height="140" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2" opacity="0.8"/>
+            <text x="175" y="735" text-anchor="middle" font-size="14" font-weight="bold" fill="#991b1b">
+                BARRIERS
+            </text>
+            <text x="175" y="755" text-anchor="middle" font-size="11" fill="#991b1b">Food Insecurity</text>
+            <text x="175" y="770" text-anchor="middle" font-size="11" fill="#991b1b">Conflict/Instability</text>
+            <text x="175" y="785" text-anchor="middle" font-size="11" fill="#991b1b">Poverty</text>
+            <text x="175" y="800" text-anchor="middle" font-size="11" fill="#991b1b">Limited Availability</text>
+            <text x="175" y="815" text-anchor="middle" font-size="11" fill="#991b1b">Affordability Issues</text>
+            <line x1="300" y1="760" x2="480" y2="500" stroke="#dc2626" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowred)"/>
+
+            <!-- Health Systems (Right) -->
+            <rect x="900" y="350" width="250" height="140" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+            <text x="1025" y="375" text-anchor="middle" font-size="14" font-weight="bold" fill="#15803d">
+                Health Systems
+            </text>
+            <text x="1025" y="395" text-anchor="middle" font-size="11" fill="#15803d">MCH Programs</text>
+            <text x="1025" y="410" text-anchor="middle" font-size="11" fill="#15803d">School Feeding</text>
+            <text x="1025" y="425" text-anchor="middle" font-size="11" fill="#15803d">Nutrition Education</text>
+            <text x="1025" y="440" text-anchor="middle" font-size="11" fill="#15803d">Supplementation</text>
+            <line x1="900" y1="450" x2="750" y2="450" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+            <!-- Policy & Economic (Bottom Right) -->
+            <rect x="900" y="710" width="250" height="140" rx="10" fill="#e0e7ff" stroke="#6366f1" stroke-width="2"/>
+            <text x="1025" y="735" text-anchor="middle" font-size="14" font-weight="bold" fill="#4f46e5">
+                Policy &amp; Economic
+            </text>
+            <text x="1025" y="755" text-anchor="middle" font-size="11" fill="#4f46e5">Food Security Policies</text>
+            <text x="1025" y="770" text-anchor="middle" font-size="11" fill="#4f46e5">Social Protection</text>
+            <text x="1025" y="785" text-anchor="middle" font-size="11" fill="#4f46e5">Subsidies</text>
+            <text x="1025" y="800" text-anchor="middle" font-size="11" fill="#4f46e5">Agricultural Investment</text>
+            <text x="1025" y="815" text-anchor="middle" font-size="11" fill="#4f46e5">Humanitarian Aid</text>
+            <line x1="900" y1="760" x2="720" y2="500" stroke="#6366f1" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+            <!-- Cultural & Social (Left) -->
+            <rect x="50" y="350" width="220" height="140" rx="10" fill="#f3e8ff" stroke="#a855f7" stroke-width="2"/>
+            <text x="160" y="375" text-anchor="middle" font-size="14" font-weight="bold" fill="#7c3aed">
+                Cultural &amp; Social
+            </text>
+            <text x="160" y="395" text-anchor="middle" font-size="11" fill="#7c3aed">Feeding Practices</text>
+            <text x="160" y="410" text-anchor="middle" font-size="11" fill="#7c3aed">Cultural Beliefs</text>
+            <text x="160" y="425" text-anchor="middle" font-size="11" fill="#7c3aed">Caregiver Knowledge</text>
+            <text x="160" y="440" text-anchor="middle" font-size="11" fill="#7c3aed">Gender Norms</text>
+            <line x1="270" y1="420" x2="450" y2="450" stroke="#a855f7" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+            <!-- Food Systems (Top Center) -->
+            <rect x="400" y="50" width="400" height="80" rx="10" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+            <text x="600" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#c2410c">
+                FOOD SYSTEMS
+            </text>
+            <text x="600" y="95" text-anchor="middle" font-size="11" fill="#c2410c">Supply Chains • Production • Distribution • Markets</text>
+            <line x1="600" y1="130" x2="600" y2="400" stroke="#ea580c" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+            <!-- Connect Food Systems to Food Sources -->
+            <line x1="800" y1="90" x2="970" y2="120" stroke="#ea580c" stroke-width="2" stroke-dasharray="3,3"/>
+            <!-- Connect Food Systems to Nutrients -->
+            <line x1="400" y1="90" x2="230" y2="120" stroke="#ea580c" stroke-width="2" stroke-dasharray="3,3"/>
+
+            <!-- Research Gap Box (Top) -->
+            <rect x="350" y="200" width="500" height="60" rx="10" fill="#fef2f2" stroke="#b91c1c" stroke-width="2" stroke-dasharray="5,5"/>
+            <text x="600" y="220" text-anchor="middle" font-size="13" font-weight="bold" fill="#b91c1c">
+                🚨 CRITICAL RESEARCH GAP
+            </text>
+            <text x="600" y="240" text-anchor="middle" font-size="12" fill="#b91c1c">
+                Only 4.7% brain studies &amp; 3.2% body studies from MENA region
+            </text>
+
+            <!-- Connecting lines between systems -->
+            <line x1="300" y1="780" x2="900" y2="780" stroke="#9ca3af" stroke-width="1" stroke-dasharray="2,2"/>
+            <line x1="270" y1="420" x2="900" y2="420" stroke="#9ca3af" stroke-width="1" stroke-dasharray="2,2"/>
+            
+            <!-- Age Window annotation -->
+            <rect x="450" y="550" width="300" height="50" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+            <text x="600" y="570" text-anchor="middle" font-size="12" font-weight="bold" fill="#92400e">
+                CRITICAL INTERVENTION WINDOW
+            </text>
+            <text x="600" y="588" text-anchor="middle" font-size="11" fill="#92400e">
+                0-12 months (First 1000 Days)
+            </text>
+        </svg>
+
+        <div class="description">
+            <h3>📊 Understanding the Systems Map</h3>
+            <p>
+                This systems map visualizes the complex, interconnected factors that influence child nutrition in fragile MENA regions. 
+                The <strong>central outcome</strong> - achieving a minimum acceptable diet leading to healthy brain and body growth - 
+                depends on multiple subsystems working together effectively.
+            </p>
+            <p>
+                <strong>Solid arrows</strong> represent direct enabling pathways (e.g., nutrients → diet, health systems → diet), 
+                while <strong>dashed red arrows</strong> represent barriers that must be overcome. The <strong>dotted lines</strong> 
+                show indirect connections and influences between subsystems.
+            </p>
+            <p>
+                The <strong>critical research gap</strong> highlighted at the top emphasizes that while we understand these systems 
+                conceptually, we lack MENA-specific evidence (only 4.7% of brain growth research comes from the region) to design 
+                optimally effective interventions.
+            </p>
+        </div>
+
+        <div class="key-connections">
+            <h4>🔗 Key System Interconnections</h4>
+            <ul>
+                <li><strong>Food Insecurity → Dietary Diversity:</strong> When food systems fail (due to conflict, poverty), families cannot access diverse, nutrient-rich foods, leading to monotonous cereal-based diets lacking essential micronutrients.</li>
+                
+                <li><strong>Cultural Practices ↔ Food Sources:</strong> Traditional feeding practices determine which foods are culturally acceptable. Interventions must align with cultural norms to succeed (e.g., using locally accepted fortified foods).</li>
+                
+                <li><strong>Policy → Health Systems → Outcomes:</strong> Strong food security policies enable health systems to deliver effective nutrition programs (school feeding, supplementation), directly improving child outcomes.</li>
+                
+                <li><strong>Barriers ⊣ All Systems:</strong> Conflict, poverty, and food insecurity act as systemic barriers that simultaneously disrupt food production, health services, and economic stability.</li>
+                
+                <li><strong>First 1000 Days Window:</strong> Evidence shows 0-12 months is the most critical intervention period. All system components must be optimized during this window for maximum impact on brain development.</li>
+                
+                <li><strong>Morocco Example:</strong> Iodine fortification success demonstrates how policy (mandating fortification) + food systems (salt/milk fortification) + health education = improved child cognitive outcomes at scale.</li>
+            </ul>
+        </div>
+
+        <div style="margin-top: 20px; padding: 20px; background: #eff6ff; border-radius: 12px; border-left: 5px solid #2563eb;">
+            <h4 style="color: #1e40af; margin-bottom: 12px;">💡 Implications for Intervention Design</h4>
+            <p style="line-height: 1.7; color: #374151;">
+                Effective interventions must be <strong>multi-system</strong>: addressing nutritional needs (iron, iodine, zinc) through 
+                appropriate food sources (fortification, animal source foods) while simultaneously tackling barriers (food insecurity, conflict impacts), 
+                strengthening health systems (MCH programs, school feeding), enabling supportive policies (subsidies, social protection), 
+                and respecting cultural contexts (acceptable feeding practices). Single-system interventions are unlikely to succeed in 
+                fragile MENA contexts - a coordinated, systems-level approach is essential.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
